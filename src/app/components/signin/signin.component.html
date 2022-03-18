@@ -1,0 +1,269 @@
+<div class="container"> <!-- INICIO CONTAINER-->
+ 
+  <p></p>
+  <p></p>
+  
+  
+  <p></p>
+
+        <div class="row titulo" >
+             <div class="col-2 text-left ">
+                <img src="../assets/logo_map.png" id=logo width="200" height="80" />
+             </div>
+             <div class="col-10 text-center">
+                <small class="text-center">
+                   <h4> FORMULARIO DE VINCULACIÓN - CLIENTE FACTURA ELECTRÓNICA</h4>
+                </small>
+            </div>
+        </div>
+
+
+
+<br>
+
+        <div class="row">
+           <div class="col-sm">
+               <small class="text-center">
+                  <p>
+                   Favor registre los datos requeridos para crearlo como cliente contado para emisión de factura electrónica 
+                   en COMBUSTIBLES DE COLOMBIA S.A. NIT 830513729-3, los datos suministrados son responsabilidad de la 
+                   persona que diligencia la información y con estos se hará la creación en nuestros sistemas de 
+                  información y los reportes respectivos a la Dirección de Impuestos y Aduanas Nacionales (DIAN).
+                  </p>
+               </small>
+    
+           </div>
+        </div>
+ <p></p>
+ <p></p>
+ 
+ 
+       <div class="row">
+             <div class="col-12">
+                 <small class="text-muted">
+                     <label for="fecha">Fecha</label>
+                 </small>
+             </div>
+             <p class="text-danger"> {{fecha}} </p>
+        </div>
+
+
+
+
+        <div class="titulo ">{{error}}</div>
+  
+  <p></p>
+  <!-- INICIO - NRO. DOCUMENTO - TIPO DOCUMENTO-->
+        <div class="row">
+
+              <div class="col-sm-6">
+                  <small class="text-muted">
+                      <label for="documento">Numero Documento o NIT (Sin digito de verificación): .* </label>
+                  </small>
+                     <input type="text" class="form-control" id="documento" placeholder="Numero de identificación" [(ngModel)] ="documento" required (change)="validarDocumento()" />
+              </div>
+ 
+              <div class="col-md-6">
+                  <small class="text-muted">
+                      <label for="documento">Tipo de documento:.*</label>
+                  </small>
+                  <select class="form-select" id="tipodocumento" [(ngModel)] ="tipodocumento" required (change)="validarTipodocumento()" >
+                      <option value=""></option>
+                      <option value="31">NIT</option>
+                      <option value="13" >Cédula de ciudadanía</option>
+                      <option value= "12" >Tarjeta de identidad</option>
+                      <option value="21" >Tarjeta de extranjería</option>
+                      <option value="22" >Cédula de extranjería</option>
+                      <option value="41" >Pasaporte</option>
+                      <option value="50" >NIT de extranjería</option>
+                      <option value="42" >Documento extranjero</option>
+                      <option value="11" >Registro civil</option>
+                  </select>
+              </div>
+          </div>
+   <p></p>
+
+    <!-- FIN - NRO. DOCUMENTO - TIPO DOCUMENTO-->
+   
+  
+  <!-- INICIO - Línea de TIPO PERSONA - REGIMEN -->
+      <div class="row">
+        <div class="col-md-6">
+              <small class="text-muted">
+                  <label for="documento" class="form-label">Tipo de persona:.*</label>
+              </small>
+              <select class="form-select" id="tipopersona" [(ngModel)] ="tipopersona" required (change)="validarTipopersona()"> 
+                  <option value=""></option>
+                  <option value="2" >Persona Natural</option>
+                  <option value="1" > Persona Jurídica</option>
+              </select>
+        </div>
+
+        <div class="col-md-6">
+              <small class="text-muted">
+                <label for="regimen" class="form-label">Regimen:.*</label>
+              </small>
+              <select class="form-select" id="regimen" [(ngModel)] ="regimen"  required (change)="validarRegimen()">
+                  <option value=""></option>
+                  <option value="48" >Responsable de IVA</option>
+                  <option value="49" >NO Responsable de IVA</option>
+              </select>
+        </div>
+      </div>
+
+      <!-- FIN - Línea de TIPO PERSONA - REGIMEN -->
+       <p></p>
+
+
+      <!-- INICIO - NOMBRE RAZON SOCIAL -->
+
+       <div class="row">
+            <div class="col">
+                  <small class="text-muted">
+                      <label for="documento">Nombre o Razón Social: .* </label>
+                  </small>
+                  <input type="text" class="form-control" id="razonsocial" placeholder="Nombre/Razón Social" [(ngModel)] ="razonsocial" required (change)="validarRazonsocial()" />
+             </div>
+      </div>
+      <p></p>
+
+     <!-- FIN - NOMBRE RAZON SOCIAL -->
+
+
+       <!-- INICIO - EMAIL - CONFIRMACIÓN DE EMAIL -->
+
+      <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <small class="text-muted">
+                      <label for="email" >Correo electrónico para facturación electrónica: .* </label>
+                    </small>
+                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Correo electrónico" [(ngModel)] ="email" required (change)="validarEmail()" />
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                 <div class="form-group">
+                    <small class="text-muted">
+                       <label for="confirmaremail" >Confirmar correo electrónico para facturación electrónica: .* </label>
+                    </small>
+                    <input type="email" class="form-control" id="confirmaremail" aria-describedby="emailHelp" placeholder="Confirmar correo electrónico" [(ngModel)] ="confirmaremail" required (change)="validarConfirmaremail()"/>
+                </div>
+            </div>
+     </div>
+    <p></p>
+
+     <!-- FIN - EMAIL - CONFIRMACIÓN DE EMAIL -->
+
+
+     <!-- INICIO - CELULAR - DIRECCIÓN -->
+
+    <div class="row">
+      <div class="col-sm-6">
+          <small class="text-muted">
+            <label for="celular">Celular:.* </label>
+          </small>
+          <input type="text" class="form-control" id="celular" placeholder="Celular" [(ngModel)] ="celular"  required (change)="validarCelular()" />
+      </div>
+    
+  
+    
+      <div class="col-sm-6">
+        <small class="text-muted">
+           <label for="dirección">Dirección:.* </label>
+        </small>
+        <input type="text" class="form-control" id="direccion" placeholder="Dirección" [(ngModel)] ="direccion" required (change)="validarDireccion()" />
+      </div>
+    </div>
+
+    <p></p>
+    <!-- INICIO - CELULAR - DIRECCIÓN -->
+
+    <!-- INICIO - DEPARTAMENTOS - CIUDADES  -->
+  
+      <div class="row">
+              <div class="col-md-6">
+                  <div>
+                        <small class="text-muted">
+                             <label for="departamento">Departamento:.* </label>
+                        </small>
+                  </div>
+                  
+                  <select [(ngModel)] ="pselectedDpto.id" (ngModelChange)="onSelect($event)" required >
+                         <option *ngFor="let dpt of pdpto" value={{dpt.id}}>
+                                {{dpt.name}}
+                         </option>
+                  </select>
+              </div>
+
+              <div class="col-md-6">
+                    <div>
+                        <small class="text-muted">
+                          <label for="ciudad">Ciudad:.*</label>
+                        </small>
+                    </div>
+                    <select name="ciudad" [(ngModel)] ="pselectedCity.id" (change)="validarCity()">
+                          <option *ngFor="let cities of ciudadesSeleccionadas" value={{cities.id}} >
+                               {{cities.name}}
+                          </option>
+                    </select>
+              </div>
+       </div>
+
+      <p></p>
+
+
+      <!-- FIN - DEPARTAMENTOS - CIUDADES  -->
+
+
+      <div class="row">
+          <div class="col-sm">
+             <small class="text-muted">
+                <label for="rut">Cargue su RUT:.* </label>
+             </small>
+             <input name="rut" type="file" [(ngModel)] ="rut" class="form-control" id="rut" placeholder="Seleccione su RUT" alife-file-to-base64 (onFileChanged)="capturarFile($event)" />
+             
+            </div> 
+      </div>
+ 
+      <p></p>
+
+<!-- INICIO DE CONDICIONES  -->
+      <div class="row p-3">
+        <div class="col-sm">
+          <div class="form-check">
+               <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id1="exampleCheck2"
+                  [(ngModel)]="ok"
+                   />
+                   
+                      <small class="text-muted">
+               <label class="form-check-label2" for="exampleCheck2">
+                      Autorizo de forma previa, expresa e informada a Combustibles de Colombia S.A. 
+                   <a href="https://www.combuscol.com/docs/autorizaciontratamientodedatospersonales.pdf" target="_blank">
+                      el tratamiento de mis datos personales
+                   </a> 
+                      bajo las siguientes condiciones
+               </label>
+              </small>
+          
+          </div>
+        </div>
+      </div>
+
+      <!-- FIN DE CONDICIONES  -->
+
+      <div class="row">
+            <div class="col">
+                <button type="button" class="btn btn-outline-warning" (click)="continuar()" >
+                     REGÍSTRATE
+                </button>
+            </div>
+      </div>
+
+
+</div>  <!-- FIN CONTAINER-->
+
+

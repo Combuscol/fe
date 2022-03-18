@@ -1,0 +1,10 @@
+
+.toast{
+    background-color: maroon;
+    color: white;
+    position: absolute;
+    width:100% !important; 
+    left:0px;
+    z-index: 1000;
+    max-width:100%;
+  }
