@@ -221,7 +221,7 @@
              <small class="text-muted">
                 <label for="rut">Cargue su RUT:.* </label>
              </small>
-             <input name="rut" type="file" [(ngModel)] ="rut" class="form-control" id="rut" placeholder="Seleccione su RUT" alife-file-to-base64 (onFileChanged)="capturarFile($event)" />
+             <input name="rut" type="file" [(ngModel)] ="rut" class="form-control" id="rut" placeholder="Seleccione su RUT" (change)="setRut($event)"  />
              
             </div> 
       </div>

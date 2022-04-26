@@ -14,7 +14,7 @@ export class CombuscolfeService {
 
   constructor(private http: HttpClient, private toastService: ToastService) {
     /*this.url = "https://api.combuscol.co";*/
-  this.url ="https://crm.combuscol.co";
+  this.url ="http://crm.combuscol.co.soel";
 
 
    }
@@ -52,14 +52,11 @@ export class CombuscolfeService {
       tax_level_code_list:regimen,
       tax_id:tax_id,
       rut:rut,
-      rut_base64:rut_base64
+      rut_b64:rut_base64
     };
 
-
     var body2=JSON.stringify(body);
-    console.log("cuerpo de la informacion...", body2);
-
-    
+    console.log("cuerpo de la informacion...", body2);    
 
     const headers = new HttpHeaders()
     .append(
@@ -68,13 +65,8 @@ export class CombuscolfeService {
     );
 
     /*let headers= new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded;charset=utf-8;');*/
-    return this.http.post<Rta>(this.url + '/index.php?entryPoint=newdiancustomer',body2);
+    return this.http.post<Rta>(this.url + '/index.php?entryPoint=newdiancustomer&XDEBUG_SESSION_START=PHPSTORM',body2);
 /*,{headers:headers}*/
-
-
     
   }
-
-
-
 }

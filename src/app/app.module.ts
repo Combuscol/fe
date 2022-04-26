@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/Select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { HttpClientModule } from '@angular/common/http';
-import { AlifeFileToBase64Module } from 'alife-file-to-base64';
+import { MatSelectModule } from '@angular/material/select'; 
+//import { AlifeFileToBase64Module } from 'alife-file-to-base64';
 
 import * as $ from 'jquery';
 
@@ -39,8 +39,7 @@ import { ToasthideComponent } from './components/toasthide/toasthide.component';
     FormsModule,
     MatSelectModule,
     MatFormFieldModule,
-    HttpClientModule,
-    AlifeFileToBase64Module
+    HttpClientModule
 
     
   ],
