@@ -192,8 +192,9 @@ export class SigninComponent implements OnInit {
   validarRazonsocial()
   {
     
-    /*let exito = false;
-    let regex= new RegExp( /[^a-z][A-Z ]{10,50}/g );
+    let exito = false;
+    /*let regex= new RegExp( /[^a-z][A-Z ]{10,50}/g );*/
+    let regex= new RegExp( /[^a-z. ][A-Z. ]{1,50}/g );
     this.error = '';
     
     if( regex.test(this.razonsocial) != true ) 
@@ -205,7 +206,7 @@ export class SigninComponent implements OnInit {
       exito = true;
     }
 
-    return exito; */
+    return exito; 
 
     return true;
   }

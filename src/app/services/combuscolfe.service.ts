@@ -14,7 +14,7 @@ export class CombuscolfeService {
 
   constructor(private http: HttpClient, private toastService: ToastService) {
     /*this.url = "https://api.combuscol.co";*/
-  this.url ="http://crm.combuscol.co.soel";
+  this.url ="https://crm.combuscol.co";
 
 
    }
