@@ -1,11 +1,11 @@
 export interface DepartamentoI {
-    id:number;
+    id:string;
     name: string;
   }
 
   export interface CiudadI {
-    id:number;
-    departamentoId: number;
+    id:string;
+    departamentoId: string;
     name: string;
   }
 

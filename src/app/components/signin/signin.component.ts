@@ -26,9 +26,9 @@ export class SigninComponent implements OnInit {
   formulario!: FormGroup;
 
   public archivos: any = [];
-  public pselectedDpto: DepartamentoI = { id:11, name: 'Bogotá' };
+  public pselectedDpto: DepartamentoI = { id:'11', name: 'Bogotá' };
   public pdpto!: DepartamentoI[];
-  public pselectedCity: CiudadI = { id:11001, departamentoId:11, name: 'BOGOTÁ, D.C.'  };
+  public pselectedCity: CiudadI = { id:'11001', departamentoId:'11', name: 'BOGOTÁ, D.C.'  };
   public ciudadesSeleccionadas!: CiudadI[];
   public _rut: string = '';
   public _rutb64: string = '';
@@ -109,7 +109,7 @@ export class SigninComponent implements OnInit {
     }   
   }
 
-  onSelect(id: number): void 
+  onSelect(id: string): void 
   { 
     this.ciudadesSeleccionadas = this.datasvc.getCiudades().
     filter(dpt => dpt.departamentoId == id);
@@ -307,7 +307,7 @@ export class SigninComponent implements OnInit {
     let exito = false;
     let vid = 0;
   
-    if( this.pselectedCity.id == vid) 
+    if( this.pselectedCity.id == 'vid') 
     {
       this.error = ("Por favor seleccione la ciudad, por favor verificar.");
     } 
