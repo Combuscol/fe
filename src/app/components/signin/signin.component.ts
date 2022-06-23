@@ -53,6 +53,7 @@ export class SigninComponent implements OnInit {
   @Input() department! : string; 
   @Input() city!: string; 
   error! : string;  
+  fecha1 = new Date();
     
   constructor(private fb: FormBuilder,  private datasvc: DatosService, private toastService:ToastService, private combuscolfeService: CombuscolfeService) 
   {
