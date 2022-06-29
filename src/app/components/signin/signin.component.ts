@@ -2,6 +2,8 @@ import { toBase64String } from '@angular/compiler/src/output/source_map';
 import { Component, Input, OnInit, SimpleChanges, ɵɵpureFunction1 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Rta } from 'src/app/model/rta';
+import { Router } from '@angular/router';
 import { CombuscolfeService } from 'src/app/services/combuscolfe.service';
 import { DepartamentoI, CiudadI } from '../../model/model.interface';
 import { DatosService} from '../../services/datos.service';
@@ -46,6 +48,7 @@ export class SigninComponent implements OnInit {
   @Input() direccion! : string;
   @Input() rut! : string;
   @Input() rut_base64! : string;
+  @Input() bases! : string;
 
   @Input() ok! : boolean; 
   @Input() ok2! : boolean;
@@ -54,8 +57,9 @@ export class SigninComponent implements OnInit {
   @Input() city!: string; 
   error! : string;  
   fecha1 = new Date();
-    
-  constructor(private fb: FormBuilder,  private datasvc: DatosService, private toastService:ToastService, private combuscolfeService: CombuscolfeService) 
+  
+   
+  constructor(private fb: FormBuilder,  private datasvc: DatosService, private toastService:ToastService, private combuscolfeService: CombuscolfeService,  private router: Router) 
   {
     /*this.iniciaFormulario();*/
   }
@@ -98,7 +102,10 @@ export class SigninComponent implements OnInit {
         exito = this.validarCelular();
 
       if( exito )
-        exito = this.validarDireccion();
+        exito = this.validarDireccion();  
+
+      if( exito )
+        exito = this.validarRut();  
 
       if(exito)
           this.irVerificar();      
@@ -107,7 +114,8 @@ export class SigninComponent implements OnInit {
     {
       this.toastService.onShowMessage.emit( "Debes aceptar los términos y condiciones para continuar" );
       this.error = ("Debes aceptar los términos y condiciones para continuar");
-    }   
+    }  
+    
   }
 
   onSelect(id: string): void 
@@ -120,7 +128,7 @@ export class SigninComponent implements OnInit {
   validarDocumento()
   {
     let exito = false;
-    let regex= new RegExp( /([0-9]){7,12}/g );
+    let regex= new RegExp( /([0-9]){6,14}/g );
 
     this.error = '';
     
@@ -360,12 +368,41 @@ export class SigninComponent implements OnInit {
  }
 
     irVerificar(){
-  
+
+    /*let exito = false;*/
+    var rta={} as Rta;
+    
+    
+    this.toastService.onShowMessage.emit( "Procesando..." );
+
     this.combuscolfeService.signIn(this.tipopersona, this.razonsocial, this.email, this.celular, this.documento, this.tipodocumento,
     this.pselectedDpto.id.toString(), this.direccion, country, this.pselectedCity.id.toString(), tax_level_code, this.regimen, tax_id, this._rut, 
     this._rutb64).subscribe(data=>{
-      console.log("Datos", data);
+
+      this.toastService.mensajeHide.emit();         
+
+      rta.code = data.code;
+      rta.msg = data.msg;      
+      
+      console.log("Codigo", rta.code);
+      console.log("Mensaje", rta.msg);
+      console.log("Valor", rta.val);
+      
+      if (rta.code != 100){
+        this.toastService.onShowMessage.emit(rta.msg);
+        this.router.navigate(['/sigin']);  
+               
+      }else
+      {
+        this.router.navigate(['/sigin']);  
+      }
+
+
+      console.log("Datos",data);
+             
     });
+
+      
   }
 
 }

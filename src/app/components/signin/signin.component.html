@@ -1,14 +1,21 @@
 <div class="container"> <!-- INICIO CONTAINER-->
  
-  <p></p>
+    <div class="row"> 
 
-  <div class="row align-items-center titulo">
-    <div class="col-2 text-left"> <img src="../assets/logo_map.png" id=logo />  </div>
-    <div class="col-8 text-center"> <h4> FORMULARIO DE VINCULACIÓN - CLIENTE </h4> </div>
-  </div>
-  
-  <p></p>
+      <div class="col-2 text-left">
+         <figure class="figure align-items-left titulo1">
+           <img src="../assets/logo_map.png" class="figure-img img-fluid img-thumbnail titulo" id=logo>
+        </figure>
+      </div>
 
+      <div class="col-10 text-center">
+        <h4> FORMULARIO DE VINCULACIÓN - CLIENTE CONTADO FACTURA ELECTRONICA</h4>
+      </div>
+
+      
+   </div>
+   
+    
   <div class="row text-center">
 
      Favor registre los datos requeridos para crearlo como cliente contado para emisión de factura electrónica 
@@ -21,11 +28,19 @@
   <p></p>
   <div class="row">
     <div class="col-12"> <label for="fecha">Fecha</label> </div>
-         <p class="text-danger"> {{ fecha1 | date }} </p>
+         <p class="text-black"> {{ fecha1 | date:'long' }} </p> 
      </div>
-   <div class="titulo ">{{error}}</div>
-  
-  <p></p>
+   <div class="titulo">{{error}}</div>
+   
+   
+
+   <app-toast [mensaje]="error"></app-toast>
+   <app-toasthide [mensaje1]="error"></app-toasthide>
+
+   <p></p>
+   <p></p>
+   <p></p>
+
   <!-- INICIO - NRO. DOCUMENTO - TIPO DOCUMENTO-->
         <div class="row">
 
@@ -63,7 +78,7 @@
       <div class="row">
         <div class="col-md-6">
               <small class="text-muted">
-                  <label for="documento" class="form-label">Tipo de persona:.*</label>
+                  <label for="documento" >Tipo de persona:.*</label>
               </small>
               <select class="form-select" id="tipopersona" [(ngModel)] ="tipopersona" required (change)="validarTipopersona()"> 
                   <option value=""></option>
@@ -74,7 +89,7 @@
 
         <div class="col-md-6">
               <small class="text-muted">
-                <label for="regimen" class="form-label">Regimen:.*</label>
+                <label for="regimen" >Regimen:.*</label>
               </small>
               <select class="form-select" id="regimen" [(ngModel)] ="regimen"  required (change)="validarRegimen()">
                   <option value=""></option>
@@ -227,14 +242,16 @@
       </div>
 
       <!-- FIN DE CONDICIONES  -->
-
-      <div class="row">
-            <div class="col">
-                <button type="button" class="btn btn-outline-warning" (click)="continuar()" >
+     
+      <div class="container bg-light">
+            <div class="col-md-12 text-center">
+                <button type="button" class="btn btn-primary titulo" (click)="continuar()" >
                      REGÍSTRATE
                 </button>
             </div>
       </div>
+      
+
 
 
 </div>  <!-- FIN CONTAINER-->

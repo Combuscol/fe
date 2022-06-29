@@ -1,5 +1,6 @@
 export interface Rta {
-    "codigo": number;
-    "rta": any;
+    "code": any;
+    "msg": any;
+    "val": any;
 }
 
