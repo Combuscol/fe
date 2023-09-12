@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DepartamentoI, CiudadI } from '../model/model.interface';
+import { DepartamentoI, CiudadI, tipopersonaI } from '../model/model.interface';
 
 
 @Injectable ({
@@ -1175,6 +1175,14 @@ export class DatosService {
 
 ];
 
+
+  private tipopersona : tipopersonaI[] = [
+   
+    { id:'1' , name: 'Persona Juridica'},
+    { id:'2' , name: 'Persona Natural'}
+   
+  ];
+
     
   getDepartamentos(): DepartamentoI[] {
     return this.departamento;
@@ -1186,6 +1194,10 @@ export class DatosService {
 
   }
 
+  gettipoPersona(): tipopersonaI[] {
+    return this.tipopersona;
+
+  }
 
 
 

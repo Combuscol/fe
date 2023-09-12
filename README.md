@@ -25,3 +25,26 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+## Further help
+
+After installing Crypto-js with the command :
+npm i crypto-js
+
+it's possible that there was an error in the moment where you import this module in module.ts, if this it, so you can install the following instruction.
+npm i --save-dev @types/crypto-js 
+
+After it, the error in the definition disaper.
+
+## Information about message
+If you want to use the library Alert, you can install
+npm install sweetalert2 --legacy-peer-deps
+
+The parametre --legacy-peer-deps, is used to fix the dependencies.
+
+
+
+
+
+

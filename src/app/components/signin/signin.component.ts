@@ -5,15 +5,31 @@ import { ToastrService } from 'ngx-toastr';
 import { Rta } from 'src/app/model/rta';
 import { Router } from '@angular/router';
 import { CombuscolfeService } from 'src/app/services/combuscolfe.service';
-import { DepartamentoI, CiudadI } from '../../model/model.interface';
+import { DepartamentoI, CiudadI, tipopersonaI } from '../../model/model.interface';
 import { DatosService} from '../../services/datos.service';
 import { ToastService } from '../../services/toast.service';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { ConfirmarComponent } from '../confirmar/confirmar.component';
+import { SwitchService } from '../../services/switch.service';
+
+import { LoginService } from '../../services/login.service';
+import { HashService } from '../../services/hash.service';
+import { HttpClient } from '@angular/common/http';
+import { LoginResponse } from 'src/app/interfaces/login-response';
+
+
+export interface DialogData {
+  si: string;
+  no: string;
+}
 
 
 //*declare var $: any;*/
 const country = 'CO';
 const tax_level_code = 'R-99-PN';
 const tax_id = 'ZZ';
+const customer_dian= 'INVALIDO';
+
 
 declare var funcion1:any; // Para utilizar las funciones javascript
 
@@ -26,22 +42,71 @@ declare var funcion1:any; // Para utilizar las funciones javascript
 export class SigninComponent implements OnInit {
 
   formulario!: FormGroup;
+  confirmarSwitch!: boolean;
+  usuario!:String;
 
+  
+  // Información para HASH - USUARIO - CLAVE
+  hash: any=[];
+  user!:string;
+  password!:string;
+  loginError: boolean = false;
+  hashedText!:string;
+  response!:LoginResponse;
+
+  valido: boolean = false;
+  
+  mostrar: Boolean=false;
+  mensaje:String="Se muestra la información";
+  mensaje_enlace: String = 'Mostrar';
+  selected: String ='';
+
+  tipopersonaA= [
+    { id: '1', name: 'Persona Juridica' },
+    { id: '2', name: 'Persona Natural'},
+
+];
+
+  
   public archivos: any = [];
+
+
   public pselectedDpto: DepartamentoI = { id:'11', name: 'Bogotá' };
+
+
   public pdpto!: DepartamentoI[];
   public pselectedCity: CiudadI = { id:'11001', departamentoId:'11', name: 'BOGOTÁ, D.C.'  };
+  public ptipopersonaA: tipopersonaI = { id:'1', name: 'Persona Juridica'  }; 
+
+
   public ciudadesSeleccionadas!: CiudadI[];
+  public tipopersonaSeleccionada!: tipopersonaI[];
   public _rut: string = '';
   public _rutb64: string = '';
+  public show!: any;
   
 
   @Input() fecha! : string;
   @Input() documento! : string;
+  @Input() confirmardocumento! : string;
+  
   @Input() tipodocumento! : string;
   @Input() tipopersona! : string;
+
+  @Input() tipopersona7! : string;
+  @Input() persona! : string;
+
+
+
   @Input() regimen! : string;
   @Input() razonsocial! : string;
+  
+
+  @Input() primernombre!: string;
+  @Input() segundonombre!: string;
+  @Input() primerapellido!: string;
+  @Input() segundoapellido!: string;
+
   @Input() email! : string;
   @Input() confirmaremail! : string;
   @Input() celular! : string;
@@ -49,6 +114,13 @@ export class SigninComponent implements OnInit {
   @Input() rut! : string;
   @Input() rut_base64! : string;
   @Input() bases! : string;
+  @Input() email_alternativo_1! : string;
+  @Input() email_alternativo_2! : string;
+  
+  @Input() confirmaremail1! : string;
+  @Input() confirmaremail2! : string;
+
+  
 
   @Input() ok! : boolean; 
   @Input() ok2! : boolean;
@@ -59,23 +131,40 @@ export class SigninComponent implements OnInit {
   fecha1 = new Date();
   
    
-  constructor(private fb: FormBuilder,  private datasvc: DatosService, private toastService:ToastService, private combuscolfeService: CombuscolfeService,  private router: Router) 
+  constructor(private fb: FormBuilder,  private datasvc: DatosService, private toastService:ToastService, private combuscolfeService: CombuscolfeService,  private router: Router, 
+    private http: HttpClient, private confirmarSS: SwitchService,private hashService: HashService, private loginService: LoginService ) 
   {
     /*this.iniciaFormulario();*/
   }
 
   ngOnInit(): void 
   {
+    //this.confirmarSS.$confirmar.subscribe((valor)=> {this.confirmarSwitch = valor})
     this.pdpto= this.datasvc.getDepartamentos();
     this.ciudadesSeleccionadas = this.datasvc.getCiudades();    
+    this.tipopersonaSeleccionada = this.datasvc.gettipoPersona();
   } 
   
+  openConfirmar(){
+    this.confirmarSwitch = true;
+    console.log("Hola");
+    console.log('Valor del switch:',this.confirmarSwitch);
+
+
+ }
+
   continuar()
   {
     if( this.ok )
     {
     
       let exito =  this.validarDocumento();
+
+      if(exito) 
+        exito = this.confirmarDocumento();
+
+      if(exito) 
+        exito = this.compararDocumentos(); 
     
       if(exito) 
         exito = this.validarTipodocumento();
@@ -90,6 +179,7 @@ export class SigninComponent implements OnInit {
         exito = this.validarRazonsocial();
 
       if( exito )
+        
         exito = this.validarEmail();
 
       if( exito )
@@ -97,6 +187,12 @@ export class SigninComponent implements OnInit {
 
       if( exito )
         exito = this.compararCorreos();
+
+      if( exito )
+        exito = this.compararCorreosopc1();
+
+       if( exito )
+        exito = this.compararCorreosopc2();
 
       if( exito )
         exito = this.validarCelular();
@@ -124,6 +220,8 @@ export class SigninComponent implements OnInit {
     filter(dpt => dpt.departamentoId == id);
   }
 
+  
+
 
   validarDocumento()
   {
@@ -143,6 +241,44 @@ export class SigninComponent implements OnInit {
 
     return exito; 
   }
+
+  confirmarDocumento()
+  {
+    let exito = false;
+    let regex= new RegExp( /([0-9]){6,14}/g );
+
+    this.error = '';
+    
+    if( regex.test(this.confirmardocumento) != true ) 
+    {
+      this.error = ("La confirmación del numero de documento esta ma escrito, por favor verificar");
+    } 
+    else
+    {
+      exito = true;
+    }
+
+    return exito; 
+  }
+
+  compararDocumentos()
+  {
+    let exito = false;
+    this.error = '';
+
+    if(this.documento == this.confirmardocumento)
+    {
+      exito= true;
+    }
+    else
+    {
+      this.error = ( "El NIT y/o Cédula para la facturación electrónica no esta confirmado de manera correcta" );
+    }
+
+    return exito;
+  }
+
+
 
 
   validarTipodocumento()
@@ -168,7 +304,7 @@ export class SigninComponent implements OnInit {
     let exito = false;
     let ltdocumento= null;
     
-    if( this.tipopersona == ltdocumento) 
+    if( this.ptipopersonaA.name == ltdocumento) 
     {
       this.error = ("El tipo de persona debe ser seleccionado, por favor verificar.");
     } 
@@ -203,12 +339,42 @@ export class SigninComponent implements OnInit {
     
     let exito = false;
     /*let regex= new RegExp( /[^a-z][A-Z ]{10,50}/g );*/
-    let regex= new RegExp( /[^a-z. ][A-Z. ]{1,50}/g );
+    let regex= new RegExp( /[^a-z. ][A-Z. ]{1,20}/g );
     this.error = '';
+    /*
+    const tpersona: any  = this.selected;
+    console.log("VALIDACIÓN DE RAZON SOCIAL TPERSONA...",tpersona);*/
+    
     
     if( regex.test(this.razonsocial) != true ) 
     {
+    if (this.ptipopersonaA.id == '2'){
+
+      exito = true;         
       this.error =  ( "Razón social esta mal escrito o vacio, por favor verificar." );
+    }
+    } 
+    else
+    {
+      exito = true;
+    }
+  
+    return exito; 
+  
+}
+
+
+
+  validarPrimernombre()
+  {
+
+    let exito = false;
+    let regex= new RegExp( /[^a-z. ][A-Z. ]{1,20}/g );
+    this.error = '';
+    
+    if( regex.test(this.primernombre) != true ) 
+    {
+      this.error =  ( "Primer nombre esta mal escrito o vacio, por favor verificar." );
     } 
     else
     {
@@ -217,7 +383,68 @@ export class SigninComponent implements OnInit {
 
     return exito; 
 
-    return true;
+  }
+  
+  validarSegundonombre()
+  {
+
+    let exito = false;
+    let regex= new RegExp( /[^a-z. ][A-Z. ]{1,20}/g );
+    this.error = '';
+    
+    if( regex.test(this.segundonombre) != true ) 
+    {
+      this.error =  ( "Segundo nombre esta mal escrito o vacio, por favor verificar." );
+    } 
+    else
+    {
+      exito = true;
+    }
+
+    return exito; 
+
+  }
+
+
+  validarPrimerapellido()
+  {
+
+    let exito = false;
+    let regex= new RegExp( /[^a-z. ][A-Z. ]{1,20}/g );
+    this.error = '';
+    
+    if( regex.test(this.primerapellido) != true ) 
+    {
+      this.error =  ( "Primer apellido esta mal escrito o vacio, por favor verificar." );
+    } 
+    else
+    {
+      exito = true;
+    }
+
+    return exito; 
+
+  }
+
+
+  validarSegundoapellido()
+  {
+
+    let exito = false;
+    let regex= new RegExp( /[^a-z. ][A-Z. ]{1,20}/g );
+    this.error = '';
+    
+    if( regex.test(this.segundoapellido) != true ) 
+    {
+      this.error =  ( "Segundo apellido esta mal escrito o vacio, por favor verificar." );
+    } 
+    else
+    {
+      exito = true;
+    }
+
+    return exito; 
+
   }
 
   validarEmail(){
@@ -311,6 +538,41 @@ export class SigninComponent implements OnInit {
     return exito;
   }
 
+  compararCorreosopc1()
+  {
+    let exito = false;
+    this.error = '';
+
+    if(this.email_alternativo_1 == this.confirmaremail1)
+    {
+      exito= true;
+    }
+    else
+    {
+      this.error = ( "El correo electrónico opcional 1 no esta confirmado de manera correcta" );
+    }
+
+    return exito;
+  }
+
+
+  compararCorreosopc2()
+  {
+    let exito = false;
+    this.error = '';
+
+    if(this.email_alternativo_2 == this.confirmaremail2)
+    {
+      exito= true;
+    }
+    else
+    {
+      this.error = ( "El correo electrónico opcional 2 no esta confirmado de manera correcta" );
+    }
+
+    return exito;
+  }
+
   validarCity()
   {
     let exito = false;
@@ -367,42 +629,131 @@ export class SigninComponent implements OnInit {
     };
  }
 
-    irVerificar(){
+ ontipoPersona()
+ { 
+  /*let tipopersona7 = document.getElementById('tipopersona');*/
+  let persona = this.tipopersona7;
 
-    /*let exito = false;*/
+  console.log("Tipo persona", persona);
+  
+
+ }
+
+ /* Mostrar y ocultar*/
+
+ mostrarOcultar()
+ {
+    if(this.mostrar){
+        this.mostrar=false;
+        this.mensaje_enlace='Mostrar';
+    }else{
+        this.mostrar=true;
+        this.mensaje_enlace='Ocultar';
+    }
+
+ }
+
+ 
+
+  irVerificar(){
+    var UNAME: string = 'admin';
+    var PASS: string = 'FFDC199DFA72644B99B548EA58FD72BD';
+    
+     
+     this.loginService.login(UNAME,PASS).subscribe((response: any) => { 
+       
+      this.response = response;
+      console.log("RESPUESTA DESPUÉS DE SUBCRIBE", this.response);
+      this.user = this.response.name_value_list.user_name.value;
+      this.password = this.response.name_value_list.user_id.value;
+      
+      console.log("Usuario..", this.user);
+      console.log("Password..", this.password);
+       
+      this.valido = true;
+  
+     },
+     (error) => {
+      // Manejar el error aquí utilizando try-catch
+      try {
+        throw error;
+      } catch (e) {
+        console.error('Ocurrió un error:', e);
+        // Realizar acciones adicionales si es necesario
+      }
+    }
+     );
+     
+
+
+ 
+    if (this.ptipopersonaA.id == '1') {
+    
     var rta={} as Rta;
-    
-    
+       
     this.toastService.onShowMessage.emit( "Procesando..." );
 
-    this.combuscolfeService.signIn(this.tipopersona, this.razonsocial, this.email, this.celular, this.documento, this.tipodocumento,
+    
+
+    this.combuscolfeService.signIn(this.ptipopersonaA.id.toString(), this.razonsocial.toString(), this.primernombre, this.segundonombre, this.primerapellido, this.segundoapellido,this.email, this.email_alternativo_1, this.email_alternativo_2,this.celular, this.documento, this.tipodocumento,
     this.pselectedDpto.id.toString(), this.direccion, country, this.pselectedCity.id.toString(), tax_level_code, this.regimen, tax_id, this._rut, 
     this._rutb64).subscribe(data=>{
 
-      this.toastService.mensajeHide.emit();         
+    this.toastService.mensajeHide.emit();         
 
-      rta.code = data.code;
-      rta.msg = data.msg;      
+    rta.code = data.code;
+    rta.msg = data.msg;      
       
-      console.log("Codigo", rta.code);
-      console.log("Mensaje", rta.msg);
-      console.log("Valor", rta.val);
+    console.log("Codigo", rta.code);
+    console.log("Mensaje", rta.msg);
+    console.log("Valor", rta.val);
       
-      if (rta.code != 100){
-        this.toastService.onShowMessage.emit(rta.msg);
-        this.router.navigate(['/sigin']);  
-               
-      }else
+    if (rta.code != 100){
+      this.toastService.onShowMessage.emit(rta.msg);
+     }else
       {
-        this.router.navigate(['/sigin']);  
+        this.router.navigate(['/confirmar']);  
       }
 
+      console.log("Datos",data);
+  
+    
+    });
+   
+        
+  }else{
+
+    var rta={} as Rta;
+       
+    this.toastService.onShowMessage.emit( "Procesando..." );
+
+    
+
+    this.combuscolfeService.signIn(this.ptipopersonaA.id.toString(), this.razonsocial, this.primernombre.toString(), this.segundonombre.toString(), this.primerapellido.toString(), this.segundoapellido.toString(),this.email, this.email_alternativo_1, this.email_alternativo_2,this.celular, this.documento, this.tipodocumento,
+    this.pselectedDpto.id.toString(), this.direccion, country, this.pselectedCity.id.toString(), tax_level_code, this.regimen, tax_id, this._rut, 
+    this._rutb64).subscribe(data=>{
+
+    this.toastService.mensajeHide.emit();         
+
+    rta.code = data.code;
+    rta.msg = data.msg;      
+      
+    console.log("Codigo", rta.code);
+    console.log("Mensaje", rta.msg);
+    console.log("Valor", rta.val);
+      
+    if (rta.code != 100){
+      this.toastService.onShowMessage.emit(rta.msg);
+     }else
+      {
+        this.router.navigate(['/confirmar']);  
+      }
 
       console.log("Datos",data);
-             
+  
+    
     });
-
-      
+   
   }
-
+}  
 }

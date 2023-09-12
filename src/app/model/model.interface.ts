@@ -9,5 +9,8 @@ export interface DepartamentoI {
     name: string;
   }
 
-
+  export interface tipopersonaI {
+    id:string;
+    name:string;
+  }
   
