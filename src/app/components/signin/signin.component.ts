@@ -17,6 +17,8 @@ import { HashService } from '../../services/hash.service';
 import { HttpClient } from '@angular/common/http';
 import { LoginResponse } from 'src/app/interfaces/login-response';
 
+import Swal from 'sweetalert2'; 
+
 
 export interface DialogData {
   si: string;
@@ -44,6 +46,7 @@ export class SigninComponent implements OnInit {
   formulario!: FormGroup;
   confirmarSwitch!: boolean;
   usuario!:String;
+  session!:string;
 
   
   // Información para HASH - USUARIO - CLAVE
@@ -152,6 +155,39 @@ export class SigninComponent implements OnInit {
 
 
  }
+
+ showModal() {
+   
+  //Swal.fire('Error', 'El código ya se encuentra bloqueado')
+  Swal.fire({
+      icon: 'warning',
+      title: 'Crear cliente facturación electrónica',
+      text: ' Esta seguro de crear el cliente ?',
+      showCancelButton: true,
+      confirmButtonColor: '#005da1', 
+      cancelButtonColor: '#e63020',
+      confirmButtonText: 'Si'
+
+  }).then((result) => {
+   
+      if (result.isConfirmed){
+
+              
+       this.irVerificar();
+      
+        Swal.fire(
+          'Registro adicionado!',
+          'Cliente factura electrónica -- creado..en días hábiles sera vaidado para su utilización',
+          'success'
+         
+        )
+       
+      }
+      
+
+  })
+  
+}
 
   continuar()
   {
@@ -658,19 +694,98 @@ export class SigninComponent implements OnInit {
   irVerificar(){
     var UNAME: string = 'admin';
     var PASS: string = 'FFDC199DFA72644B99B548EA58FD72BD';
+    var SESSIONID:string;
     
      
      this.loginService.login(UNAME,PASS).subscribe((response: any) => { 
        
       this.response = response;
+
       console.log("RESPUESTA DESPUÉS DE SUBCRIBE", this.response);
+
       this.user = this.response.name_value_list.user_name.value;
       this.password = this.response.name_value_list.user_id.value;
+      this.session = this.response.id;
       
       console.log("Usuario..", this.user);
       console.log("Password..", this.password);
+      console.log("Session..", this.session);
+
+      if (this.ptipopersonaA.id == '1') {
+    
+        var rta={} as Rta;
+           
+        this.toastService.onShowMessage.emit( "Procesando..." );
+    
+        
+    
+        this.combuscolfeService.signIn(this.ptipopersonaA.id.toString(), this.razonsocial.toString(), this.primernombre, this.segundonombre, this.primerapellido, this.segundoapellido,this.email, this.email_alternativo_1, this.email_alternativo_2,this.celular, this.documento, this.tipodocumento,
+        this.pselectedDpto.id.toString(), this.direccion, country, this.pselectedCity.id.toString(), tax_level_code, this.regimen, tax_id, this._rut, 
+        this._rutb64,this.response.id).subscribe(data=>{
+    
+        this.toastService.mensajeHide.emit();         
+    
+        rta.code = data.code;
+        rta.msg = data.msg;      
+          
+        console.log("Codigo", rta.code);
+        console.log("Mensaje", rta.msg);
+        console.log("Valor", rta.val);
+          
+        if (rta.code != 100){
+          this.toastService.onShowMessage.emit(rta.msg);
+         }else
+          {
+            this.toastService.mensajeHide.emit();
+            this.router.navigate(['/confirmar']);  
+            this.router.navigate(['/sigin']);  
+           
+          }
+    
+          console.log("Datos",data);
+      
+        
+        });
        
-      this.valido = true;
+            
+      }
+      else{
+      (this.ptipopersonaA.id == '2') 
+    
+        var rta={} as Rta;
+           
+        this.toastService.onShowMessage.emit( "Procesando..." );
+    
+        
+    
+        this.combuscolfeService.signIn(this.ptipopersonaA.id.toString(), this.razonsocial, this.primernombre.toString(), this.segundonombre.toString(), this.primerapellido.toString(), this.segundoapellido.toString(),this.email, this.email_alternativo_1, this.email_alternativo_2,this.celular, this.documento, this.tipodocumento,
+        this.pselectedDpto.id.toString(), this.direccion, country, this.pselectedCity.id.toString(), tax_level_code, this.regimen, tax_id, this._rut, 
+        
+        this._rutb64,this.response.id).subscribe(data=>{
+    
+        this.toastService.mensajeHide.emit();         
+    
+        rta.code = data.code;
+        rta.msg = data.msg;      
+          
+        console.log("Codigo", rta.code);
+        console.log("Mensaje", rta.msg);
+        console.log("Valor", rta.val);
+          
+        if (rta.code != 100){
+          this.toastService.onShowMessage.emit(rta.msg);
+         }else
+          {
+            this.router.navigate(['/confirmar']);  
+          }
+    
+          console.log("Datos",data);
+      
+        
+        });
+       
+      }
+          
   
      },
      (error) => {
@@ -687,73 +802,6 @@ export class SigninComponent implements OnInit {
 
 
  
-    if (this.ptipopersonaA.id == '1') {
-    
-    var rta={} as Rta;
-       
-    this.toastService.onShowMessage.emit( "Procesando..." );
-
-    
-
-    this.combuscolfeService.signIn(this.ptipopersonaA.id.toString(), this.razonsocial.toString(), this.primernombre, this.segundonombre, this.primerapellido, this.segundoapellido,this.email, this.email_alternativo_1, this.email_alternativo_2,this.celular, this.documento, this.tipodocumento,
-    this.pselectedDpto.id.toString(), this.direccion, country, this.pselectedCity.id.toString(), tax_level_code, this.regimen, tax_id, this._rut, 
-    this._rutb64).subscribe(data=>{
-
-    this.toastService.mensajeHide.emit();         
-
-    rta.code = data.code;
-    rta.msg = data.msg;      
-      
-    console.log("Codigo", rta.code);
-    console.log("Mensaje", rta.msg);
-    console.log("Valor", rta.val);
-      
-    if (rta.code != 100){
-      this.toastService.onShowMessage.emit(rta.msg);
-     }else
-      {
-        this.router.navigate(['/confirmar']);  
-      }
-
-      console.log("Datos",data);
   
-    
-    });
-   
-        
-  }else{
-
-    var rta={} as Rta;
-       
-    this.toastService.onShowMessage.emit( "Procesando..." );
-
-    
-
-    this.combuscolfeService.signIn(this.ptipopersonaA.id.toString(), this.razonsocial, this.primernombre.toString(), this.segundonombre.toString(), this.primerapellido.toString(), this.segundoapellido.toString(),this.email, this.email_alternativo_1, this.email_alternativo_2,this.celular, this.documento, this.tipodocumento,
-    this.pselectedDpto.id.toString(), this.direccion, country, this.pselectedCity.id.toString(), tax_level_code, this.regimen, tax_id, this._rut, 
-    this._rutb64).subscribe(data=>{
-
-    this.toastService.mensajeHide.emit();         
-
-    rta.code = data.code;
-    rta.msg = data.msg;      
-      
-    console.log("Codigo", rta.code);
-    console.log("Mensaje", rta.msg);
-    console.log("Valor", rta.val);
-      
-    if (rta.code != 100){
-      this.toastService.onShowMessage.emit(rta.msg);
-     }else
-      {
-        this.router.navigate(['/confirmar']);  
-      }
-
-      console.log("Datos",data);
-  
-    
-    });
-   
-  }
 }  
 }

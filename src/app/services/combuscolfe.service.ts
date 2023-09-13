@@ -15,9 +15,9 @@ export class CombuscolfeService {
 
   
   constructor(private http: HttpClient, private toastService: ToastService) {
-    this.url = "http://dev.combuscol.co";
+   // this.url = "http://dev.combuscol.co";
    
-  //this.url ="https://combusapp.combuscol.com:3415";
+  this.url ="https://combusapp.combuscol.com:3415";
 
 
    }
@@ -44,7 +44,8 @@ export class CombuscolfeService {
           regimen:string, // tax_level_code_list
           tax_id: string, // "ZZ"
           rut: string, // archivo capturado
-          rut_base64: string// Base 64 del archivo capturado
+          rut_base64: string,// Base 64 del archivo capturado
+          session: string
         
        
           
@@ -127,7 +128,7 @@ export class CombuscolfeService {
     );
 
     /*let headers= new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded;charset=utf-8;');*/
-    return this.http.post<Rta>(this.url + '/index.php?entryPoint=newdiancustomer',body2);
+    return this.http.post<Rta>(this.url + '/api/Solicitud/CrearClienteMaster' ,body2);
 
     //&XDEBUG_SESSION_START=PHPSTORM
    
