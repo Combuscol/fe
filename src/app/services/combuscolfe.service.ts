@@ -117,18 +117,34 @@ export class CombuscolfeService {
 
     console.log("cuerpo de la informacion. SIN CONDICIONAL", body2);    
 
-        
+   
 
-        
-
-    const headers = new HttpHeaders()
+   /*const headers = new HttpHeaders()
     .append(
       'Content-Type',
       'application/json'
-    );
+   );*/
 
-    /*let headers= new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded;charset=utf-8;');*/
-    return this.http.post<Rta>(this.url + '/api/Solicitud/CrearClienteMaster' ,body2);
+   const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      //'withCredentials': 'true', 
+      'Access-Control-Allow-Origin':'*',
+      'method': 'POST' 
+      // This header should typically be set on the server, not in the client request.
+      // Note: 'Access-Control-Allow-Origin' is a response header, not a request header.
+    }),
+  };
+
+
+
+
+
+    //let headers= new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded;charset=utf-8;');
+    //return this.http.post<Rta>(this.url + '/api/Solicitud/CrearClienteMaster' ,body2);
+    return this.http.post<Rta>(this.url + '/api/Solicitud/CrearClienteMaster' ,body2,httpOptions
+    );
 
     //&XDEBUG_SESSION_START=PHPSTORM
    
