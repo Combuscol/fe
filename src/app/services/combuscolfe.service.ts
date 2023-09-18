@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Rta } from '../model/rta';
+import { Rta2 } from '../interfaces/rta2';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ToastService } from './toast.service'; 
 import { type } from 'jquery';
@@ -56,28 +56,28 @@ export class CombuscolfeService {
      
     
     var bodyjuridica={
-      type:tipopersona,
-      name:razonsocial,
+      tipo:tipopersona,
+      nombre:razonsocial,
       email:correo1,
       email_alternativo_1:correo_alternativo_1,
       email_alternativo_2:correo_alternativo_2,
-      phone:celular,
-      identification:documento,
-      identification_type:tipodoc,
-      state:dpto,
-      address:direccion,
-      country:country,
-      city:ciudad,
-      tax_level_code:tax_level_code,
-      tax_level_code_list:regimen,
-      tax_id:tax_id,
-      rut:rut,
+      telefono:celular,
+      identificacion:documento,
+      tipo_identificacion:tipodoc,
+      codigo_dpto :dpto,
+      direccion:direccion,
+      codigo_pais:country,
+      codigo_ciudad:ciudad,
+      obligaciones:tax_level_code,
+      regimen:regimen,
+      identificador_tributo:tax_id,
+      dv:rut,
       rut_b64:rut_base64
      };
 
 
      var bodynatural={
-      type:tipopersona,
+      tipo:tipopersona,
       first_name:primernombre,
       middle_name:segundonombre,
       surname:primerapellido,
@@ -85,17 +85,17 @@ export class CombuscolfeService {
       email:correo1,
       email_alternativo_1:correo_alternativo_1,
       email_alternativo_2:correo_alternativo_2,
-      phone:celular,
-      identification:documento,
-      identification_type:tipodoc,
-      state:dpto,
-      address:direccion,
-      country:country,
-      city:ciudad,
-      tax_level_code:tax_level_code,
-      tax_level_code_list:regimen,
-      tax_id:tax_id,
-      rut:rut,
+      telefono:celular,
+      identificacion:documento,
+      tipo_identificacion:tipodoc,
+      codigo_dpto :dpto,
+      direccion:direccion,
+      codigo_pais:country,
+      codigo_ciudad:ciudad,
+      obligaciones:tax_level_code,
+      regimen:regimen,
+      identificador_tributo:tax_id,
+      dv:rut,
       rut_b64:rut_base64
      };
     
@@ -130,7 +130,7 @@ export class CombuscolfeService {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       //'withCredentials': 'true', 
-      'Access-Control-Allow-Origin':'*',
+      //'Access-Control-Allow-Origin':'*',
       'method': 'POST' 
       // This header should typically be set on the server, not in the client request.
       // Note: 'Access-Control-Allow-Origin' is a response header, not a request header.
@@ -138,12 +138,9 @@ export class CombuscolfeService {
   };
 
 
-
-
-
     //let headers= new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded;charset=utf-8;');
     //return this.http.post<Rta>(this.url + '/api/Solicitud/CrearClienteMaster' ,body2);
-    return this.http.post<Rta>(this.url + '/api/Solicitud/CrearClienteMaster' ,body2,httpOptions
+    return this.http.post<Rta2>('/api/Solicitud/CrearClienteMaster' ,body2, httpOptions
     );
 
     //&XDEBUG_SESSION_START=PHPSTORM

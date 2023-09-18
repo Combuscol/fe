@@ -1,0 +1,9 @@
+{
+    "/api/Solicitud/*":{
+      "target":"https://combusapp.combuscol.com:3415/",
+      "secure":true,
+      "logLevel":"debug",
+      "chageOrigin": true
+    }
+
+}

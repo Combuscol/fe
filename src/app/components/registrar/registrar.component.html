@@ -1,3 +1,14 @@
-<button (click)="openDialog">
+<!--<button (click)="openDialog">
     Click to open Registrar
-</button>
+</button>-->
+
+<form (ngSubmit)="solicitudCliente()">
+    <label for="name">Tipo:</label>
+    <div>
+
+        <input type="text" id="name" [(ngModel)]="formData.name" name="name" required>
+      
+    </div>
+    
+    <button type="submit">Enviar</button>
+  </form>

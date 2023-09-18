@@ -725,8 +725,8 @@ export class SigninComponent implements OnInit {
     
         this.toastService.mensajeHide.emit();         
     
-        rta.code = data.code;
-        rta.msg = data.msg;      
+        rta.code = data.codigo;
+        rta.msg = data.mensaje;      
           
         console.log("Codigo", rta.code);
         console.log("Mensaje", rta.msg);
@@ -765,8 +765,8 @@ export class SigninComponent implements OnInit {
     
         this.toastService.mensajeHide.emit();         
     
-        rta.code = data.code;
-        rta.msg = data.msg;      
+        rta.code = data.codigo;
+        rta.msg = data.mensaje;      
           
         console.log("Codigo", rta.code);
         console.log("Mensaje", rta.msg);
