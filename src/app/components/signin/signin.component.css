@@ -4,12 +4,37 @@ color:white;
 
 }
 
+#titulo3{
+    margin-top:5px;
+    margin-bottom:4px;
+}
+
+#autorizo{
+    margin-top:0px;
+    margin-bottom:0px;
+}
+
+#registro{
+    margin-top:0px;
+    margin-bottom:0px;
+}
+
+#fecha{
+    margin-top:2px;
+    margin-bottom:1px;
+}
+
 .titulo2 {
     background-color: #0f0c0c;
     color:white;
     float: center;
     
     }
+
+.container{
+    margin-top: 2px;
+    margin-top: 1px;
+}
 
 .titulo1 {
     background-color: #ffffff;

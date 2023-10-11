@@ -47,6 +47,7 @@ export class SigninComponent implements OnInit {
   confirmarSwitch!: boolean;
   usuario!:String;
   session!:string;
+  registroExitoso:Boolean=true;
 
   
   // Información para HASH - USUARIO - CLAVE
@@ -159,6 +160,7 @@ export class SigninComponent implements OnInit {
  showModal() {
    
   //Swal.fire('Error', 'El código ya se encuentra bloqueado')
+
   Swal.fire({
       icon: 'warning',
       title: 'Crear cliente facturación electrónica',
@@ -169,22 +171,31 @@ export class SigninComponent implements OnInit {
       confirmButtonText: 'Si'
 
   }).then((result) => {
-   
+
+      
       if (result.isConfirmed){
 
               
-       this.irVerificar();
-      
+       if (this.registroExitoso == true){
+        this.irVerificar();
         Swal.fire(
           'Registro adicionado!',
-          'Cliente factura electrónica -- creado..en días hábiles sera vaidado para su utilización',
+          'Cliente factura electrónica -- creado..en días hábiles sera vaidado para su utilizació',
           'success'
-         
-        )
-       
-      }
-      
+        );
 
+       }else{
+        Swal.fire(
+          'Error al adicionar el registro',
+          'Empresa y/o cliente ya existe por favor verificar..',
+          'error'
+        );
+
+       }
+           
+      
+        //this.registroExitoso=true;
+      }
   })
   
 }
@@ -340,7 +351,8 @@ export class SigninComponent implements OnInit {
     let exito = false;
     let ltdocumento= null;
     
-    if( this.ptipopersonaA.name == ltdocumento) 
+    //ptipopersonaA.name
+    if(( this.ptipopersonaA.id == ltdocumento) && ( this.ptipopersonaA.id != ""))
     {
       this.error = ("El tipo de persona debe ser seleccionado, por favor verificar.");
     } 
@@ -545,9 +557,10 @@ export class SigninComponent implements OnInit {
     let regex= new RegExp( /^([A-Za-z]\s*){1,50}/g );
     this.error = '';
     
-    if( regex.test(this.direccion) != true ) 
+    if(( regex.test(this.direccion) != true)  || ((this.direccion) =="") )
     {
       this.error = ( "La dirección esta mal escrito, por favor verificar." );
+
     } 
     else
     {
@@ -597,8 +610,10 @@ export class SigninComponent implements OnInit {
     let exito = false;
     this.error = '';
 
-    if(this.email_alternativo_2 == this.confirmaremail2)
+    if(this.email_alternativo_2 == this.confirmaremail2) 
     {
+      exito= true;
+    }if((this.email_alternativo_2 =="") && (this.confirmaremail2=="")){
       exito= true;
     }
     else
@@ -691,117 +706,146 @@ export class SigninComponent implements OnInit {
 
  
 
-  irVerificar(){
-    var UNAME: string = 'admin';
-    var PASS: string = 'FFDC199DFA72644B99B548EA58FD72BD';
-    var SESSIONID:string;
-    
-     
-     this.loginService.login(UNAME,PASS).subscribe((response: any) => { 
-       
-      this.response = response;
-
-      console.log("RESPUESTA DESPUÉS DE SUBCRIBE", this.response);
-
-      this.user = this.response.name_value_list.user_name.value;
-      this.password = this.response.name_value_list.user_id.value;
-      this.session = this.response.id;
-      
-      console.log("Usuario..", this.user);
-      console.log("Password..", this.password);
-      console.log("Session..", this.session);
-
-      if (this.ptipopersonaA.id == '1') {
-    
-        var rta={} as Rta;
-           
-        this.toastService.onShowMessage.emit( "Procesando..." );
-    
-        
-    
-        this.combuscolfeService.signIn(this.ptipopersonaA.id.toString(), this.razonsocial.toString(), this.primernombre, this.segundonombre, this.primerapellido, this.segundoapellido,this.email, this.email_alternativo_1, this.email_alternativo_2,this.celular, this.documento, this.tipodocumento,
-        this.pselectedDpto.id.toString(), this.direccion, country, this.pselectedCity.id.toString(), tax_level_code, this.regimen, tax_id, this._rut, 
-        this._rutb64,this.response.id).subscribe(data=>{
-    
-        this.toastService.mensajeHide.emit();         
-    
-        rta.code = data.codigo;
-        rta.msg = data.mensaje;      
-          
-        console.log("Codigo", rta.code);
-        console.log("Mensaje", rta.msg);
-        console.log("Valor", rta.val);
-          
-        if (rta.code != 100){
-          this.toastService.onShowMessage.emit(rta.msg);
-         }else
-          {
-            this.toastService.mensajeHide.emit();
-            this.router.navigate(['/confirmar']);  
-            this.router.navigate(['/sigin']);  
-           
-          }
-    
-          console.log("Datos",data);
-      
-        
-        });
-       
-            
-      }
-      else{
-      (this.ptipopersonaA.id == '2') 
-    
-        var rta={} as Rta;
-           
-        this.toastService.onShowMessage.emit( "Procesando..." );
-    
-        
-    
-        this.combuscolfeService.signIn(this.ptipopersonaA.id.toString(), this.razonsocial, this.primernombre.toString(), this.segundonombre.toString(), this.primerapellido.toString(), this.segundoapellido.toString(),this.email, this.email_alternativo_1, this.email_alternativo_2,this.celular, this.documento, this.tipodocumento,
-        this.pselectedDpto.id.toString(), this.direccion, country, this.pselectedCity.id.toString(), tax_level_code, this.regimen, tax_id, this._rut, 
-        
-        this._rutb64,this.response.id).subscribe(data=>{
-    
-        this.toastService.mensajeHide.emit();         
-    
-        rta.code = data.codigo;
-        rta.msg = data.mensaje;      
-          
-        console.log("Codigo", rta.code);
-        console.log("Mensaje", rta.msg);
-        console.log("Valor", rta.val);
-          
-        if (rta.code != 100){
-          this.toastService.onShowMessage.emit(rta.msg);
-         }else
-          {
-            this.router.navigate(['/confirmar']);  
-          }
-    
-          console.log("Datos",data);
-      
-        
-        });
-       
-      }
-          
+ irVerificar(){
   
-     },
-     (error) => {
-      // Manejar el error aquí utilizando try-catch
-      try {
-        throw error;
-      } catch (e) {
-        console.error('Ocurrió un error:', e);
-        // Realizar acciones adicionales si es necesario
+    
+    if (this.ptipopersonaA.id == '1') {
+  
+      let  rta={} as Rta;
+      let mensaje: string;
+      this.toastService.onShowMessage.emit( "Procesando..." );
+  
+      
+  
+      this.combuscolfeService.signIn(this.ptipopersonaA.id.toString(), this.razonsocial.toString(), this.primernombre, this.segundonombre, this.primerapellido, this.segundoapellido,this.email, this.email_alternativo_1, this.email_alternativo_2,this.celular, this.documento, this.tipodocumento,
+      this.pselectedDpto.id.toString(), this.direccion, country, this.pselectedCity.id.toString(), tax_level_code, this.regimen, tax_id, this._rut, 
+      this._rutb64).subscribe(data=>{
+  
+      //this.toastService.mensajeHide.emit();         
+  
+      rta.code = data.codigo;
+      rta.msg = data.mensaje;      
+        
+      console.log("Codigo", rta.code);
+      console.log("Mensaje", rta.msg);
+      console.log("Valor", rta.val);
+        
+      if (rta.code != 100){
+        this.registroExitoso = false;              
+        this.toastService.onShowMessage.emit(rta.msg);
+        //this.result1.isConfirmed = false;
+        //this.router.navigate(['/sigin']);  
+        console.log("Mensaje evidenciando el problema",rta.msg);
+       }else
+        {
+          //this.registroExitoso = true;  
+          this.toastService.mensajeHide.emit();
+          //this.router.navigate(['/confirmar']);  
+          this.actualizarSinin();
+          this.router.navigate(['/sigin']);  
+         
+        }
+  
+        console.log("Datos",data.codigo);
+        console.log("Datos",data.error);
+        console.log("Datos",data.mensaje);
+        this.registroExitoso = false;
+      
+      },
+      (error) => {
+        // Manejar el error aquí utilizando try-catch
+        try {
+          throw error;
+        } catch (e) {
+          console.error('Ocurrió un error:', e);
+          return e;
+          // Realizar acciones adicionales si es necesario
+          //this.registroExitoso = true;
+        }
+     
+          
+    });
+    this.toastService.mensajeHide.emit();  // on september 22
+  }
+  
+  
+  if (this.ptipopersonaA.id == '2') {
+    var rta={} as Rta;
+         
+    this.toastService.onShowMessage.emit( "Procesando..." );
+
+    
+
+    this.combuscolfeService.signIn(this.ptipopersonaA.id.toString(), this.razonsocial, this.primernombre.toString(), this.segundonombre.toString(), this.primerapellido.toString(), this.segundoapellido.toString(),this.email, this.email_alternativo_1, this.email_alternativo_2,this.celular, this.documento, this.tipodocumento,
+    this.pselectedDpto.id.toString(), this.direccion, country, this.pselectedCity.id.toString(), tax_level_code, this.regimen, tax_id, this._rut, 
+    
+    this._rutb64).subscribe(data=>{
+
+    this.toastService.mensajeHide.emit();         
+
+    rta.code = data.codigo;
+    rta.msg = data.mensaje;      
+      
+    console.log("Codigo", rta.code);
+    console.log("Mensaje", rta.msg);
+    console.log("Valor", rta.val);
+      
+    if (rta.code != 100){
+      this.toastService.onShowMessage.emit(rta.msg);
+     }else
+      {
+        this.router.navigate(['/confirmar']);  
+        this.toastService.mensajeHide.emit();
+        this.actualizarSinin();
+        this.router.navigate(['/sigin']);  
+         
       }
+
+      console.log("Datos",data);
+  
+    
+    });
+    this.toastService.mensajeHide.emit();  // on september 22
+  }
+  
+  }
+
+    actualizarSinin(){
+
+      this.documento = '';
+      this.confirmardocumento = '';
+      this.tipodocumento = '';
+      this.ptipopersonaA.id = '';
+      this.primernombre = '';
+      this.segundonombre = '';
+      this.primerapellido = '';
+      this.segundoapellido = '';
+      this.razonsocial = '';
+      this.regimen = '';
+      this.email = '';
+      this.confirmaremail = '';
+      this.celular = '';
+      this.direccion = '';
+      this.pselectedDpto.id = '';
+      this.pselectedCity.id = '';
+      this.rut = '';
+      this.email_alternativo_1 = '';
+      this.confirmaremail1 = '';
+      this.email_alternativo_2 = '';
+      this.confirmaremail2 = '';
+      this.ok = false;
+      
     }
-     );
      
-
-
- 
   
-}  
-}
+     
+    }
+        
+
+  
+   
+   
+   
+
+
+

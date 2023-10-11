@@ -44,8 +44,8 @@ export class CombuscolfeService {
           regimen:string, // tax_level_code_list
           tax_id: string, // "ZZ"
           rut: string, // archivo capturado
-          rut_base64: string,// Base 64 del archivo capturado
-          session: string
+          rut_base64: string// Base 64 del archivo capturado
+        
         
        
           
@@ -130,8 +130,9 @@ export class CombuscolfeService {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       //'withCredentials': 'true', 
-      //'Access-Control-Allow-Origin':'*',
-      'method': 'POST' 
+      'Access-Control-Allow-Origin':'*',
+      'method': 'POST',
+      'Access-Control-Allow-Methods': "GET,POST,OPTIONS,DELETE,PUT"
       // This header should typically be set on the server, not in the client request.
       // Note: 'Access-Control-Allow-Origin' is a response header, not a request header.
     }),
@@ -140,7 +141,7 @@ export class CombuscolfeService {
 
     //let headers= new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded;charset=utf-8;');
     //return this.http.post<Rta>(this.url + '/api/Solicitud/CrearClienteMaster' ,body2);
-    return this.http.post<Rta2>('/api/Solicitud/CrearClienteMaster' ,body2, httpOptions
+    return this.http.post<Rta2>(this.url + '/api/Solicitud/CrearClienteMaster' ,body2, httpOptions
     );
 
     //&XDEBUG_SESSION_START=PHPSTORM

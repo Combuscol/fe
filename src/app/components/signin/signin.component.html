@@ -3,17 +3,16 @@
    <div class="row"> 
        <img src="../assets/formulario-03.png" id=logo>
     </div>
-    <p></p>
-    
-    <p class="row text-center">
+  
+    <p class="row text-center" id="titulo3">
         Favor registre los datos requeridos para crearlo como cliente contado para emisión de factura electrónica 
         en COMBUSTIBLES DE COLOMBIA S.A. NIT 830513729-3, los datos suministrados son responsabilidad de la 
         persona que diligencia la información y con estos se hará la creación en nuestros sistemas de 
         información y los reportes respectivos a la Dirección de Impuestos y Aduanas Nacionales (DIAN).
     </p>
-    <p></p>
-    <div class="col-12"> 
-       <p class="text-black"> {{ fecha1 | date:'long' }} </p> 
+   
+    <div class="col-12" id="fecha"> 
+       <b><p class="text-black"> {{ fecha1 | date:'long' }} </p> </b>
     </div>
        
  
@@ -240,7 +239,7 @@
   </div>
 
   
-  <div class="card-body">
+  <div class="card-body" id="autorizo">
       <div class="row">
         <div class="col-sm-6">
           <div class="form-group">
@@ -280,11 +279,11 @@
    </div> <!-- CIERRE CARD BODY INFORMACIÓN ADICIONAL  -->
   </div> <!-- CIERRE DEL CARD INFORMACIÓN ADICIONAL  -->
 
-
+ 
  <!-- INICIO DE CONDICIONES  -->
     <div class="row p-3">
-      <div class="col-sm">
-        <div class="form-check">
+      <div class="col-sm" id="autorizo">
+        <div class="form-check" >
           <input type="checkbox" class="form-check-input" id1="exampleCheck2" [(ngModel)]="ok" />
             <small class="text-muted">
               <label class="form-check-label2" for="exampleCheck2">
@@ -299,21 +298,23 @@
       </div>
     </div>
       <!-- FIN DE CONDICIONES  -->
+      
 
  <app-toast [mensaje]="error"></app-toast>
  <app-toasthide [mensaje1]="error"></app-toasthide>
       
-<div class="titulo">{{error}}</div>
-<p></p>
+<!--<div class="titulo">{{error}}</div>-->
 
   </div> <!-- FIN DE CONTAINER -->
-
+  <div class="titulo">{{error}}</div>
     
-    <div class="col-md-12 text-center">
-      <button type="button" class="btn btn-primary titulo" data-bs-toggle="modal" (click)="showModal()" data-bs-target="#exampleModal" >
+    <p class="col-md-12 text-center" id="registro">
+      <button type="button" class="btn btn-primary titulo" data-bs-toggle="modal" (click)="continuar()" data-bs-target="#exampleModal" >
        REGISTRAR 
       </button>
-    </div>
+    </p>
+
+    
 
     <!-- this comment was realized by Miguel Cano on september 13 thirteen
     <div>
