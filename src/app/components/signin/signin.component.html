@@ -1,46 +1,58 @@
-<div class="container"> <!-- INICIO CONTAINER-->
+
+ 
+
+<div class="container" > <!-- INICIO CONTAINER-->
+ 
  
    <div class="row"> 
-       <img src="../assets/formulario-03.png" id=logo>
+       <img src="../assets/combuscol-logo.svg" id="logo">
     </div>
-  
+    
+    <h1 id="vinculacion">
+      Formulario de Vinculación
+    </h1>
+    
+    <h2 id="cliente">
+      Cliente contado factura electrónica
+    </h2>
+
     <p class="row text-center" id="titulo3">
         Favor registre los datos requeridos para crearlo como cliente contado para emisión de factura electrónica 
         en COMBUSTIBLES DE COLOMBIA S.A. NIT 830513729-3, los datos suministrados son responsabilidad de la 
         persona que diligencia la información y con estos se hará la creación en nuestros sistemas de 
         información y los reportes respectivos a la Dirección de Impuestos y Aduanas Nacionales (DIAN).
     </p>
-   
+   <br>
     <div class="col-12" id="fecha"> 
-       <b><p class="text-black"> {{ fecha1 | date:'long' }} </p> </b>
+       {{ fecha1 | date:'long' }} 
     </div>
        
- 
+ <br>
 <!-- INICIO - NRO. DOCUMENTO - TIPO DOCUMENTO-->
    <div class="card">
-      <div class="card-header bg-danger text-white text-center border-danger">
-         INFORMACIÓN REQUERIDA. *
+      <div class="card-header text-left " id="letra1">
+         Información Requerida.*
       </div>
    
       <div class="card-body">
         <div class="row">
           <div class="col-sm-4">
             <small class="text-muted">
-              <label for="documento">Nro. Dcto. o NIT (Sin digito de verificación): .* </label>
+              <label for="documento" id="negrilla">Nro. Dcto. o NIT (Sin digito de verificación): .* </label>
              </small>
-             <input type="text" class="form-control" id="documento" autocomplete="off" placeholder="Numero de identificación" [(ngModel)] ="documento" required (change)="validarDocumento()" />
+             <input type="text" class="form-control" autocomplete="off" placeholder="Numero de identificación" [(ngModel)] ="documento" required (change)="validarDocumento()" />
           </div>
           <div class="col-sm-4">
             <small class="text-muted">
-              <label for="documento">Confirmar Nro.Dcto. o NIT : .* </label>
+              <label for="documento" id="negrilla">Confirmar Nro.Dcto. o NIT : .* </label>
             </small>
-            <input type="text" class="form-control" id="confirmardocumento" autocomplete="off" placeholder="Numero de identificación"  [(ngModel)] ="confirmardocumento" required (change)="confirmarDocumento()"/>
+            <input type="text" class="form-control" autocomplete="off" placeholder="Numero de identificación"  [(ngModel)] ="confirmardocumento" required (change)="confirmarDocumento()"/>
           </div>
           <div class="col-md-4">
             <small class="text-muted">
-              <label for="documento">Tipo de documento:.*</label>
+              <label for="documento" id="negrilla">Tipo de documento:.*</label>
             </small>
-            <select class="form-select"  id="tipodocumento" [(ngModel)] ="tipodocumento" required (change)="validarTipodocumento()" >
+            <select class="form-select"  [(ngModel)] ="tipodocumento" required (change)="validarTipodocumento()" >
               <option value=""></option>
               <option value="31">NIT</option>
               <option value="13" >Cédula de ciudadanía</option>
@@ -54,11 +66,13 @@
             </select>
           </div>
         </div>  <!-- TERMINACIÓN DE LA PIMERA FILA DEL CARD ACTIVO -->
+        <br>
+
         <div class="row">
           <br>
-          <div class="col-sm-9">
+          <div class="col-sm-8">
             <small class="text-muted">
-              <label for="primernombre" >Tipo persona .*</label>
+              <label for="primernombre" id="negrilla" >Tipo persona .*</label>
             </small>
             <div class="card">
               
@@ -70,28 +84,7 @@
               
               </select>
              
-              
-             <!-- COPIA DPTO 
-              <select class="form-select" [(ngModel)] ="pselectedDpto.id" (ngModelChange)="onSelect($event)" required >
-                 <option *ngFor="let dpt of pdpto" value={{dpt.id}}>
-                    {{dpt.name}}
-                    </option>
-              </select>
-                       
-              -->
-
-
-
-              <!-- <select class="form-select" [(ngModel)]="selected" > 
-                <option *ngFor="let item of tipopersonaA"> 
-                     {{item.name}}, {{item.id}}
-                                      
-                </option>
-              
-              </select>
-            -->
-
-             
+       
               
               <!-- CONDICIONAL DE PERSONA NATURAL -->
                <div class="card-body">
@@ -100,33 +93,33 @@
                       <div class="col-sm-3">
                         <div class="form-group">
                           <small class="text-muted">
-                            <label for="primernombre" >Primer nombre:.* </label>
+                            <label for="primernombre" id="negrilla">Primer nombre:.* </label>
                           </small>
-                          <input type="primernombre" class="form-control" autocomplete="off" id="primernombre" aria-describedby="emailHelp" placeholder="Primer nombre"  [(ngModel)]="primernombre" required (change)="validarPrimernombre()"/>
+                          <input type="texto" id="primernombre" class="form-control" autocomplete="off"  aria-describedby="emailHelp" placeholder="Primer nombre"  [(ngModel)]="primernombre" required (change)="validarPrimernombre()"/>
                         </div>
                       </div>
                       <div class="col-sm-3">
                         <div class="form-group">
                           <small class="text-muted">
-                            <label for="segundonombre" >Segundo nombre: </label>
+                            <label for="segundonombre" id="negrilla" >Segundo nombre: </label>
                           </small>
-                          <input type="segundonombre" class="form-control" autocomplete="off" id="segundonombre" aria-describedby="emailHelp" placeholder="Segundo nombre" [(ngModel)]="segundonombre" (change)="validarSegundonombre()" />
+                          <input type="text" id="segundonombre" class="form-control" autocomplete="off"  aria-describedby="emailHelp" placeholder="Segundo nombre" [(ngModel)]="segundonombre" (change)="validarSegundonombre()" />
                        </div>
                       </div>
                       <div class="col-sm-3">
                        <div class="form-group">
                          <small class="text-muted">
-                           <label for="primerapellido" >Primer apellido:.*</label>
+                           <label for="primerapellido" id="negrilla" >Primer apellido:.*</label>
                          </small>
-                         <input type="primerapellido" class="form-control" autocomplete="off" id="primerapellido" aria-describedby="emailHelp" placeholder="Primer apellido"  [(ngModel)]="primerapellido" required (change)="validarPrimerapellido()"/>
+                         <input type="texto" id="primerapellido" class="form-control" autocomplete="off"  aria-describedby="emailHelp" placeholder="Primer apellido"  [(ngModel)]="primerapellido" required (change)="validarPrimerapellido()"/>
                        </div>
                       </div>
                       <div class="col-sm-3">
                        <div class="form-group">
                          <small class="text-muted">
-                           <label for="segundoapellido" >Segundo apellido: </label>
+                           <label for="segundoapellido" id="negrilla">Segundo apellido: </label>
                          </small>
-                         <input type="segundoapellido" class="form-control" autocomplete="off" id="segundoapellido" aria-describedby="emailHelp" placeholder="Segundo Apellido" [(ngModel)]="segundoapellido" (change)="validarSegundoapellido()" />
+                         <input type="text" id="segundoapellido" class="form-control" autocomplete="off" aria-describedby="emailHelp" placeholder="Segundo Apellido" [(ngModel)]="segundoapellido" (change)="validarSegundoapellido()" />
                        </div>
                       </div>
                    </div> <!-- Final de la fila que combina persona natural y/o juridica -->
@@ -136,71 +129,78 @@
                   <!-- <ng-template *ngIf="selected=='Persona Juridica'"> -->
                   <ng-template #juridica>
                      <small class="text-muted">
-                       <label for="documento">Nombre o Razón Social: .* </label>
+                       <label for="documento" id="negrilla">Nombre o Razón Social: .* </label>
                      </small>
                      <p>
                      NOMBRE DE LA EMPRESA : {{ razonsocial }}
-                     <input type="text" class="form-control"  id="razonsocial" autocomplete="off" placeholder="Nombre/Razón Social" [(ngModel)] ="razonsocial" required (change)="validarRazonsocial()" />
+                     <input type="text" class="form-control"   autocomplete="off" placeholder="Nombre/Razón Social" [(ngModel)] ="razonsocial" required (change)="validarRazonsocial()" />
                     </p>
                     </ng-template>
                </div> <!-- Final de la fila CARD BODY-->
             </div>   <!-- Final de la fila CARD-->  
          </div> <!-- Final de la COLUMNA - FILA -->  
 
-          <div class="col-md-3">
+          <div class="col-md-4">
              <small class="text-muted">
-               <label for="regimen" >Regimen:.*</label>
+               <label for="regimen" id="negrilla" >Regimen:.*</label>
              </small>
-             <select class="form-select" id="regimen" [(ngModel)] ="regimen"  required (change)="validarRegimen()">
+             <select class="form-select"  [(ngModel)] ="regimen"  required (change)="validarRegimen()">
                <option value=""></option>
                <option value="48" >Responsable de IVA</option>
                <option value="49" >NO Responsable de IVA</option>
              </select>
           </div>
         </div> <!-- Final de la SEGUNDA FILA GENERAL--> 
-      </div> <!-- Final de la FILA GENERAL-->  
-   </div><!-- FINAL DEL CARD ACTIVO-->  
-  <!-- INICIO - EMAIL - CONFIRMACIÓN DE EMAIL -->
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="form-group">
-        <small class="text-muted">
-          <label for="email" >Correo electrónico para facturación electrónica: .* </label>
-        </small>
-        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" autocomplete="off" placeholder="Correo electrónico" [(ngModel)] ="email" required (change)="validarEmail()" />
-      </div>
-    </div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        <small class="text-muted">
-          <label for="confirmaremail" >Confirmar correo electrónico para facturación electrónica: .* </label>
-        </small>
-        <input type="email" class="form-control" id="confirmaremail" autocomplete="off" aria-describedby="emailHelp" placeholder="Confirmar correo electrónico" [(ngModel)] ="confirmaremail" required (change)="validarConfirmaremail()"/>
-      </div>
-    </div>
- </div>
- <!-- FIN - EMAIL - CONFIRMACIÓN DE EMAIL -->
- <!-- INICIO - CELULAR - DIRECCIÓN -->
- <div class="row">
-  <div class="col-sm-6">
-    <small class="text-muted">
-     <label for="celular">Celular:.* </label>
-    </small>
-    <input type="text" class="form-control" id="celular" autocomplete="off" placeholder="Celular" [(ngModel)] ="celular"  required (change)="validarCelular()" />
-  </div>
-  <div class="col-sm-6">
-    <small class="text-muted">
-      <label for="dirección">Dirección:.* </label>
-    </small>
-    <input type="text" class="form-control" id="direccion" autocomplete="off" placeholder="Dirección" [(ngModel)] ="direccion" required (change)="validarDireccion()" />
-   </div>
-</div>
-<!-- INICIO - DEPARTAMENTOS - CIUDADES  -->
+     <!-- </div>--> <!-- Final de la FILA GENERAL-->  
+
+<!--Información adicional 10 de octubre 2023--> 
+
 <div class="row">
-  <div class="col-md-6">
+  
+
+  <div class="col-sm-4">
+   
+      <small class="text-muted">
+        <label for="email" id="negrilla" >Correo electrónico facturación electrónica: .* </label>
+      </small>
+      <input type="email" class="form-control"  autocomplete="off" placeholder="Correo electrónico" [(ngModel)] ="email" required (change)="validarEmail()" />
+   
+  </div>
+
+   <div class="col-sm-4">
+    
+      <small class="text-muted">
+        <label for="confirmaremail" id="negrilla" >Confirmar correo electrónico facturación electrónica: .* </label>
+      </small>
+      <input type="email" class="form-control" autocomplete="off" aria-describedby="emailHelp" placeholder="Confirmar correo electrónico" [(ngModel)] ="confirmaremail" required (change)="validarConfirmaremail()"/>
+    
+  </div>
+ 
+  <br>
+
+  <div class="col-sm-4">
+    <small class="text-muted">
+     <label for="celular" id="negrilla" >Celular:.* </label>
+    </small>
+    <input type="text" class="form-control" autocomplete="off" placeholder="Celular" [(ngModel)] ="celular"  required (change)="validarCelular()" />
+  </div>
+
+</div>
+<br>
+
+<div class="row">
+
+  <div class="col-sm-4">
+    <small class="text-muted">
+      <label for="dirección" id="negrilla">Dirección:.* </label>
+    </small>
+    <input type="text" class="form-control" autocomplete="off" placeholder="Dirección" [(ngModel)] ="direccion" required (change)="validarDireccion()" />
+   </div>
+  
+  <div class="col-md-4">
     <div>
       <small class="text-muted">
-        <label for="departamento">Departamento:.* </label>
+        <label for="departamento" id="negrilla" >Departamento:.* </label>
       </small>
     </div>
       <select class="form-select" [(ngModel)] ="pselectedDpto.id" (ngModelChange)="onSelect($event)" required >
@@ -209,10 +209,11 @@
         </option>
       </select>
   </div>
-  <div class="col-md-6">
+
+  <div class="col-md-4">
     <div>
       <small class="text-muted">
-        <label for="ciudad">Ciudad:.*</label>
+        <label for="ciudad" id="negrilla" >Ciudad:.*</label>
       </small>
     </div>
     <select class="form-select" name="ciudad" [(ngModel)] ="pselectedCity.id" (change)="validarCity()">
@@ -221,30 +222,51 @@
       </option>
     </select>
   </div>
+
+
  </div>
- <!-- FIN - DEPARTAMENTOS - CIUDADES  -->
+
+ <br>
+
  <div class="row">
-  <div class="col-sm">
+  <div class="col-sm-8">
     <small class="text-muted">
-      <label for="rut">Cargue su RUT:.* </label>
+      <label for="rut" id="negrilla">Cargue su RUT:.* </label>
     </small>
     <input name="rut" type="file" [(ngModel)] ="rut" class="form-control" id="rut" placeholder="Seleccione su RUT" (change)="setRut($event)"  />
    </div> 
  </div>
+   </div><!-- FINAL DEL CARD ACTIVO-->  
+</div>
+  <!-- INICIO - EMAIL - CONFIRMACIÓN DE EMAIL -->
+    
+ <!-- FIN - EMAIL - CONFIRMACIÓN DE EMAIL -->
+ <!-- INICIO - CELULAR - DIRECCIÓN -->
+ 
+  
 
+
+<!-- INICIO - DEPARTAMENTOS - CIUDADES  -->
+
+
+ <!-- FIN - DEPARTAMENTOS - CIUDADES  -->
+ 
+<br>
  
  <div class="card">
-  <div class="card-header bg-primary text-white text-center border border-primary">
-    INFORMACIÓN OPCIONAL
+  <div class="card-header text-left " id="letra2">
+     Información Opcional
+   
   </div>
 
   
+
   <div class="card-body" id="autorizo">
       <div class="row">
         <div class="col-sm-6">
           <div class="form-group">
             <small class="text-muted">
-              <label for="email" >Correo electrónico opcional 1: </label>
+              <label for="email" id="negrilla">Correo electrónico opcional 1: </label>
             </small>
             <input type="emailopcional1" class="form-control" autocomplete="off" id="emailopcional1" aria-describedby="emailHelp" placeholder="Correo electrónico opcional 1" [(ngModel)] ="email_alternativo_1" (change)="validarEmail()" />
           </div>
@@ -252,7 +274,7 @@
         <div class="col-sm-6">
           <div class="form-group">
             <small class="text-muted">
-              <label for="confirmaremail" >Confirmar correo electrónico opcional 1 </label>
+              <label for="confirmaremail" id="negrilla" >Confirmar correo electrónico opcional 1 </label>
             </small>
             <input type="confirmaropcional1" class="form-control" autocomplete="off" id="confirmaropcional1" aria-describedby="emailHelp" placeholder="Confirmar correo electrónico opcional 1" [(ngModel)] ="confirmaremail1" (change)="validarConfirmaremail()"/>
           </div>
@@ -262,7 +284,7 @@
         <div class="col-sm-6">
           <div class="form-group">
             <small class="text-muted">
-              <label for="email" >Correo electrónico opcional 2: </label>
+              <label for="email" id="negrilla">Correo electrónico opcional 2: </label>
             </small>
             <input type="emailopcional2" class="form-control" autocomplete="off" id="emailopcional2" aria-describedby="emailHelp" placeholder="Correo electrónico opcional 2" [(ngModel)] ="email_alternativo_2" (change)="validarEmail()" />
           </div>
@@ -270,7 +292,7 @@
         <div class="col-sm-6">
           <div class="form-group">
             <small class="text-muted">
-              <label for="confirmaremail" >Confirmar correo electrónico opcional 2 </label>
+              <label for="confirmaremail" id="negrilla" >Confirmar correo electrónico opcional 2 </label>
             </small>
             <input type="confirmaropcional2" class="form-control" autocomplete="off" id="emailopcional2" aria-describedby="emailHelp" placeholder="Confirmar correo electrónico opcional 2" [(ngModel)] ="confirmaremail2" (change)="validarConfirmaremail()"/>
           </div>
@@ -281,12 +303,14 @@
 
  
  <!-- INICIO DE CONDICIONES  -->
-    <div class="row p-3">
-      <div class="col-sm" id="autorizo">
+ <br>
+ <div class="card">
+    <div class="row">
+      <div class="col-sm-12" >
         <div class="form-check" >
-          <input type="checkbox" class="form-check-input" id1="exampleCheck2" [(ngModel)]="ok" />
+          <input type="checkbox" class="form-check-input text-center" id1="exampleCheck2" [(ngModel)]="ok" />
             <small class="text-muted">
-              <label class="form-check-label2" for="exampleCheck2">
+              <label class="form-check-label2 text-center"  for="exampleCheck2">
                  Autorizo de forma previa, expresa e informada a Combustibles de Colombia S.A. 
                  <a href="https://www.combuscol.com/docs/autorizaciontratamientodedatospersonales.pdf" target="_blank">
                   el tratamiento de mis datos personales
@@ -297,20 +321,31 @@
         </div>
       </div>
     </div>
+ 
+    
+ 
+  </div>
       <!-- FIN DE CONDICIONES  -->
-      
-
- <app-toast [mensaje]="error"></app-toast>
- <app-toasthide [mensaje1]="error"></app-toasthide>
+      <app-toast [mensaje]="error"></app-toast>
+    <app-toasthide [mensaje1]="error"></app-toasthide>
+         
+ 
+    
+      <div class="card">
+        <div class="titulo">{{error}}</div>
+      </div>
+ 
       
 <!--<div class="titulo">{{error}}</div>-->
 
   </div> <!-- FIN DE CONTAINER -->
-  <div class="titulo">{{error}}</div>
-    
-    <p class="col-md-12 text-center" id="registro">
-      <button type="button" class="btn btn-primary titulo" data-bs-toggle="modal" (click)="continuar()" data-bs-target="#exampleModal" >
-       REGISTRAR 
+
+ 
+    <br>
+
+    <p class="col-md-12 text-center" >
+      <button type="button" class="btn btn-primary"  id="boton1" data-bs-toggle="modal" (click)="continuar()" data-bs-target="#exampleModal" >
+       Registrarse
       </button>
     </p>
 

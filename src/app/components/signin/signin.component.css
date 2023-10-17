@@ -1,6 +1,51 @@
 .titulo {
 background-color: #e73939;
+
 color:white;
+
+
+
+}
+
+.fondo{
+    background-image: url("/src/assets/combuscol-logo.svg");
+    
+    background-repeat:no-repeat;
+    background-position: center;
+    width:1920px;
+    height:1080px;
+    background-size: cover;
+    background-size: 100% 100%;
+}
+   
+   
+
+#logo{
+    float:center;
+    width:1080px;
+    height:110px;
+
+ }
+
+ #fondo{
+    width:1080px;
+    height:110px;
+
+ }
+
+ #vinculacion{
+    font-size: 32px;
+    font-family: 'Montserrat';
+    color:#0A5DA8;
+    font-weight: 550;
+
+ }
+
+#cliente{
+    font-size: 24px;
+    font-family: 'Montserrat';
+    color:black;
+    font-weight: 550;
 
 }
 
@@ -14,6 +59,12 @@ color:white;
     margin-bottom:0px;
 }
 
+#autorizo1{
+    margin-top:0px;
+    margin-bottom:0px;
+    margin-left:160px;
+}
+
 #registro{
     margin-top:0px;
     margin-bottom:0px;
@@ -22,6 +73,40 @@ color:white;
 #fecha{
     margin-top:2px;
     margin-bottom:1px;
+}
+
+#letra1{
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-size:18px;
+    color:white;
+    background-color:#E52629;
+}
+
+#boton1{
+    font-family: 'Montserrat';
+    font-weight: 500;
+    font-size:25px;
+    color:white;
+    border: 0;
+    background-color:#E52629;
+}
+
+#negrilla{
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-size:11px;
+    color:black;
+       
+}
+
+#letra2{
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-size:18px;
+    color:#005da1;
+    background-color: #CEE8FF;
+   
 }
 
 .titulo2 {

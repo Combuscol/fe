@@ -69,9 +69,7 @@ export class SigninComponent implements OnInit {
     { id: '1', name: 'Persona Juridica' },
     { id: '2', name: 'Persona Natural'},
 
-];
-
-  
+];  
   public archivos: any = [];
 
 
@@ -223,7 +221,12 @@ export class SigninComponent implements OnInit {
         exito = this.validarRegimen();
 
       if( exito )
-        exito = this.validarRazonsocial();
+         if(this.ptipopersonaA.id == '1'){
+          exito = this.validarRazonsocial();
+         }else{
+          exito = this.validarPrimernombre();
+        }
+       
 
       if( exito )
         
@@ -396,33 +399,25 @@ export class SigninComponent implements OnInit {
     
     if( regex.test(this.razonsocial) != true ) 
     {
-    if (this.ptipopersonaA.id == '2'){
-
-      exito = true;         
       this.error =  ( "Razón social esta mal escrito o vacio, por favor verificar." );
-    }
     } 
     else
     {
       exito = true;
     }
-  
     return exito; 
-  
 }
 
-
-
-  validarPrimernombre()
+validarPrimernombre()
   {
 
     let exito = false;
     let regex= new RegExp( /[^a-z. ][A-Z. ]{1,20}/g );
     this.error = '';
     
-    if( regex.test(this.primernombre) != true ) 
+    if( (regex.test(this.primernombre) != true) &&  (regex.test(this.primerapellido) != true)) 
     {
-      this.error =  ( "Primer nombre esta mal escrito o vacio, por favor verificar." );
+      this.error =  ( "Primer nombre y/o primer apellido esta mal escrito o vacio, por favor verificar." );
     } 
     else
     {
@@ -557,7 +552,7 @@ export class SigninComponent implements OnInit {
     let regex= new RegExp( /^([A-Za-z]\s*){1,50}/g );
     this.error = '';
     
-    if(( regex.test(this.direccion) != true)  || ((this.direccion) =="") )
+    if(( regex.test(this.direccion) != true)  || ((this.direccion) ==null) )
     {
       this.error = ( "La dirección esta mal escrito, por favor verificar." );
 
@@ -776,7 +771,7 @@ export class SigninComponent implements OnInit {
 
     
 
-    this.combuscolfeService.signIn(this.ptipopersonaA.id.toString(), this.razonsocial, this.primernombre.toString(), this.segundonombre.toString(), this.primerapellido.toString(), this.segundoapellido.toString(),this.email, this.email_alternativo_1, this.email_alternativo_2,this.celular, this.documento, this.tipodocumento,
+    this.combuscolfeService.signIn(this.ptipopersonaA.id.toString(), this.razonsocial, this.primernombre.toString(), this.segundonombre, this.primerapellido.toString(), this.segundoapellido,this.email, this.email_alternativo_1, this.email_alternativo_2,this.celular, this.documento, this.tipodocumento,
     this.pselectedDpto.id.toString(), this.direccion, country, this.pselectedCity.id.toString(), tax_level_code, this.regimen, tax_id, this._rut, 
     
     this._rutb64).subscribe(data=>{
